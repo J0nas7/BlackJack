@@ -1,3 +1,12 @@
+# Installation/Run Game
+Don't think anything needs to be installed on teacher/censor machines
+
+To run it simply navigate via Terminal "$ cd /" to the project folder
+
+The game will be run by "python BlackJack.py"
+
+The unit test will be run by "python test_BlackJack.py"
+
 # BlackJack.py
 Contains the game itself.
 
