@@ -14,7 +14,7 @@ After each move is finished, a function will check if we have a winner and/or a 
 
 When a round has finished, it is possible to continue or stop playing
 
-#test_BlakJack.py
+# test_BlackJack.py
 Tests two functions
 
 The printHand() function that makes a template of the current hand(s) of Player and Dealer along with their points
