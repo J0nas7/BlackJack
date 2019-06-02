@@ -19,6 +19,7 @@ class theCards():
             raise Exception("This class is a singleton!")
         else:
             theCards.__theInstance = self
+            theCards.reset(self)
 
     def reset(self):
         self.allCards = [

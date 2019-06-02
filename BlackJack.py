@@ -10,7 +10,6 @@ theBet = 0
 saldo = 0
 
 Cards = theCards().getInstance()
-Cards.reset()
 prefixMove = ""
 badChoise = "Ugyldigt valg!"
 insurance = False
