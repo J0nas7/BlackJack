@@ -14,7 +14,7 @@ class theCards():
         return theCards.__theInstance
 
     def __init__(self):
-        """ Virtually private constructor. """
+        ## Virtually private constructor
         if theCards.__theInstance != None:
             raise Exception("This class is a singleton!")
         else:

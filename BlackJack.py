@@ -1,6 +1,7 @@
 from random import randint
 from Cards_Singleton import theCards
 import clr
+import subprocess
 
 dealerCards = []
 playerCards = []
@@ -273,6 +274,8 @@ def checkForWin(): ## After making an overview of hands, we will check if one is
             playAgain(totalPlayerVal, totalDealerVal, False)    ## Finish the game with dealer as winner
         elif (17 <= totalDealerVal and totalPlayerVal > totalDealerVal): ## Player wins over dealer
             playAgain(totalPlayerVal, totalDealerVal, True)     ## Finish the game with player as winner
+        elif (17 <= totalDealerVal and 17 <= totalPlayerVal and totalDealerVal == totalPlayerVal): ## Same points player wins
+            playAgain(totalPlayerVal, totalDealerVal, True)     ## Finish the game with player as winner
         else: ## If nobody can win or lose yet, the game will continue asking for a move
             if 2 == len(playerCards): ## First move in the game, after player has gotten two cards and dealer has gotten one card
                 chooseFirstMove()
@@ -312,6 +315,7 @@ def playAgain(playerTotal = 0, dealerTotal = 0, won = True, DoubleWin = False): 
     print(clr.yellow("Spillersaldo: "+str(saldo))) ## Current saldo in game
     playAgain = input("Spil igen? (Y/N): ") ## Play again? (Y/N)
     if (playAgain == "Y"):
+        ## subprocess.run(["clear"])
         if (automatic):
             dealerGame(True) ## Play again dealer perspective
         else:
@@ -344,6 +348,7 @@ def makeAMove(test = ""): ## Next move in the game
         if (prefixMove == ""): ## Player choose move
             print(clr.yellow("\nHvad vil du gøre nu?:"))
             theMove = input(" ")
+            subprocess.run(["clear"])
         else: ## If a previous move has prefixed this move
             theMove = prefixMove
     elif (automatic and theBet > 0): ## If we play as dealer
@@ -400,15 +405,16 @@ def player_intelligence(): ## Function that tries to figure out smartest move fo
     ## Iterate over possible hands
     playerTotal = 0
     for num in playerCards:
-        playerTotal = playerTotal + num
+        playerTotal = playerTotal + cardValue(num)
     playerTotal2 = 0
     for num in playerCards2:
-        playerTotal2 = playerTotal2 + num
+        playerTotal2 = playerTotal2 + cardValue(num)
 
+    dealerFirstCard = cardValue(dealerCards[0])
     if (len(playerCards) == 2 and playerCards[0] == playerCards[1] and split == False): ## Split if possible
         split = True
         return "SP"
-    elif (len(dealerCards) == 1 and dealerCards[0] > 8 and insurance == False): ## Buy insurance if dealer has a high start card (9 or 10 points)
+    elif (len(dealerCards) == 1 and dealerFirstCard > 8 and insurance == False): ## Buy insurance if dealer has a high start card (9 or 10 points)
         return "I"
     elif (split): ## If player has two playing hands
         if (playerTotal < 16 and playerTotal2 < 16): ## Hit new cards if both hands are under 16 points
@@ -416,7 +422,7 @@ def player_intelligence(): ## Function that tries to figure out smartest move fo
         else:
             return "ST" ## Stay and let dealer pick cards, if both hands are over 16
     elif (playerTotal < 16): ## If the one playing hand is under 16 points
-        if (len(dealerCards) == 1 and dealerCards[0] < 6): ## And if the dealer has under 6 points
+        if (len(dealerCards) == 1 and dealerFirstCard < 6): ## And if the dealer has under 6 points
             return "D" ## Double the bet and take a card
         else:
             return "H" ## If dealer has over 5 points, just take a card
